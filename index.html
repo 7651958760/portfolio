@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Himanshu Chaurasiya | Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; overflow: hidden; margin:0; padding:0; }
+  header { text-align: center; padding: 20px; }
+  header h1 { font-size: 2.5rem; font-weight: bold; color: #ffd700; text-shadow: 2px 2px 6px rgba(0,0,0,0.5); }
+  header p { font-size: 1.2rem; margin-top: 5px; }
+  .container { position: relative; width: 100%; height: 80vh; overflow: hidden; }
+  .cloud { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50%; padding: 20px; text-align: center; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,0.2); color: #fff; position: absolute; user-select: none; }
+  .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 30px; border-radius: 12px; max-width: 400px; text-align: center; }
+  .modal.active { display: block; }
+  .close-btn { margin-top: 10px; background: #fff; color: #333; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Himanshu Chaurasiya</h1>
+  <p>B.Tech Computer Science Student</p>
+</header>
+
+<div class="container">
+  <div class="cloud" id="about">About Me</div>
+  <div class="cloud" id="skills">Skills</div>
+  <div class="cloud" id="projects">Projects</div>
+  <div class="cloud" id="experience">Experience</div>
+  <div class="cloud" id="contact">Contact</div>
+</div>
+
+<div id="modal" class="modal">
+  <div id="modal-content"></div>
+  <div class="close-btn" onclick="closeModal()">Close</div>
+</div>
+
+<script>
+const content = {
+  about: "B.Tech Computer Science student at KIET Group of Institutions, Ghaziabad (2022–2026). Passionate about AI/ML,Database & Problem-solving.",
+  skills: "Python, SQL, C++,Problem-solving, JavaScript, Machine Learning, System design, GitHub, Linux",
+  projects: "Baby Health Monitoring System, Duplicacy Detection in Research Papers, Fitness Website",
+  experience: "Python AI/ML Data Science Intern – YBL (Remote) Jan 2025 – Mar 2025",
+  contact: "Email: himanshudev8423@gmail.com | LinkedIn | GitHub"
+};
+
+// Modal open on click
+ document.querySelectorAll('.cloud').forEach(cloud => {
+   cloud.addEventListener('click', () => {
+     const id = cloud.id;
+     document.getElementById('modal-content').innerText = content[id];
+     document.getElementById('modal').classList.add('active');
+   });
+ });
+
+ function closeModal() {
+   document.getElementById('modal').classList.remove('active');
+ }
+
+// Moving like bouncing balls
+const clouds = document.querySelectorAll('.cloud');
+const container = document.querySelector('.container');
+const speeds = [];
+clouds.forEach((cloud, i) => {
+  cloud.style.top = Math.random() * (container.clientHeight - 120) + 'px';
+  cloud.style.left = Math.random() * (container.clientWidth - 120) + 'px';
+  speeds[i] = {
+    dx: (Math.random() < 0.5 ? -1 : 1) * (1 + Math.random()*2),
+    dy: (Math.random() < 0.5 ? -1 : 1) * (1 + Math.random()*2)
+  };
+});
+
+function animate() {
+  clouds.forEach((cloud, i) => {
+    let x = cloud.offsetLeft + speeds[i].dx;
+    let y = cloud.offsetTop + speeds[i].dy;
+    if (x <= 0 || x + cloud.clientWidth >= container.clientWidth) speeds[i].dx *= -1;
+    if (y <= 0 || y + cloud.clientHeight >= container.clientHeight) speeds[i].dy *= -1;
+    cloud.style.left = x + 'px';
+    cloud.style.top = y + 'px';
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
